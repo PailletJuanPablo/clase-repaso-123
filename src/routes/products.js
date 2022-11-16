@@ -29,16 +29,21 @@ const storage = multer.diskStorage({
 // En upload tengo la instancia de multer para procesar
 const upload = multer({ storage });
 
+
+// Importar middleware a nivel ruta
+const porRuta = require('../middlewares/porRuta');
+
+
 /*** GET ALL PRODUCTS ***/
 // /products/
-router.get("/", productsController.index);
+router.get("/", porRuta, productsController.index);
 
 /*** CREATE ONE PRODUCT ***/
 // /products/create
 // /products
-router.get("/create", productsController.create);
+router.get("/create", porRuta, productsController.create);
 // upload.single('campo') == input name="campo"
-router.post("/", upload.single("image"), productsController.store);
+router.post("/",  upload.single("image"), productsController.store);
 
 /*** GET ONE PRODUCT ***/
 router.get("/detail/:productId/", productsController.detail);

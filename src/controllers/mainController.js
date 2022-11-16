@@ -8,6 +8,7 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 const controller = {
 	index: (req, res) => {
+		console.log(req.usuario);
 		// Parametros de url == req.params 
 		// Definirlo en el router
 		// /products/:id

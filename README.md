@@ -65,3 +65,11 @@ datos JSON.
 
 - Enviar parametros de query == Agregar a url ? clave = valor 
 - Para agregar mas de 1 == &clave2=valor2
+
+# Middlewares
+
+- Elemento propio de express para modularizar la lógica del sistema
+- Comparten el req, res y next
+- Deben ser métodos
+- Deben invocar a next o a res
+- 2 tipos: Globales o por rutas
