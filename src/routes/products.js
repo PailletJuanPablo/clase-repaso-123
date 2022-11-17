@@ -21,18 +21,25 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now();
     // Al setear nombre del archivo hay que especificar extensión
     const fileExtension = path.extname(file.originalname);
-    const newName = file.originalname.replace(fileExtension, '')
-      cb(null, newName + "-" + uniqueSuffix + fileExtension);
+    const newName = file.originalname.replace(fileExtension, "");
+    cb(null, newName + "-" + uniqueSuffix + fileExtension);
   },
 });
 
 // En upload tengo la instancia de multer para procesar
 const upload = multer({ storage });
 
-
 // Importar middleware a nivel ruta
-const porRuta = require('../middlewares/porRuta');
+const porRuta = require("../middlewares/porRuta");
 
+// Express validator
+// body es un metodo de express validator para procesar campos de la petición
+const { body } = require("express-validator");
+
+const validatorsMiddleware = [
+  body("name").notEmpty().withMessage('El campo no puede estar vacío'),
+  body("price").isNumeric()
+];
 
 /*** GET ALL PRODUCTS ***/
 // /products/
@@ -43,7 +50,12 @@ router.get("/", porRuta, productsController.index);
 // /products
 router.get("/create", porRuta, productsController.create);
 // upload.single('campo') == input name="campo"
-router.post("/",  upload.single("image"), productsController.store);
+router.post(
+  "/",
+  validatorsMiddleware,
+  upload.single("image"),
+  productsController.store
+);
 
 /*** GET ONE PRODUCT ***/
 router.get("/detail/:productId/", productsController.detail);

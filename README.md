@@ -73,3 +73,19 @@ datos JSON.
 - Deben ser métodos
 - Deben invocar a next o a res
 - 2 tipos: Globales o por rutas
+
+# Express validator
+- Middleware para validar peticiones desde el backend
+- Primero se agrega a la izquierda de un controlador
+- Necesito que se ejecute antes del metodo del controlador
+- Para obtener los errores de express validator luego de la validación
+hay que invocar a validationResult(req)
+- Si esta todo bien continua la lógica
+- Si hay errores, se retorna la vista original con mensajes de error y campos pre cargados
+
+- Flujo
+Router invoca express-validator y controlador
+Express validator valida el request
+Controlador llama a validationResult(req) para continuar el flujo del sistema
+
+

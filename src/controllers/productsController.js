@@ -6,6 +6,10 @@ const products = JSON.parse(fs.readFileSync(productsFilePath, "utf-8"));
 
 const toThousand = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
+// validationResult me permite obtener un objeto con información de la validación de express-validator
+const { validationResult } = require('express-validator');
+
+
 const controller = {
   // Root - Show all products
   index: (req, res) => {
@@ -44,6 +48,26 @@ const controller = {
 
   // Create -  Method to store
   store: (req, res) => {
+
+    // Validar si hubo errores
+    // Retornar vista anterior informando al usuario
+    const errors = validationResult(req);
+    // con errors.array() tengo los errores de la petición
+
+    if (!errors.isEmpty()) {
+      // Si hay al menos un error
+      // Devuelvo vista de creación
+      // Informo al usuario que hubo errores
+      // Pre completo campos ingresados
+      return res.render(
+        'product-create-form',
+        {
+          errors: errors.array()
+        }
+      )
+
+    }
+
     // POST o PUT / PATCH
     const camposDeNuevoProducto = req.body;
     // Agregar producto
